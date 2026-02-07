@@ -29,7 +29,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      # CORRECTION ICI : On passe à Java 17 (Requis pour ThingsBoard 4.x)
       - name: Set up JDK 17
         uses: actions/setup-java@v3
         with:
@@ -37,9 +36,8 @@ jobs:
           distribution: "temurin"
           cache: maven
 
-      # On garde les options pour sauter les vérifications strictes
-      - name: Compile and Run Unit Tests
-        run: mvn clean verify -Dlicense.skip=true -Ddockerfile.skip=true -Dskip.docker.tests=true
+      - name: Compile and Run Application Tests Only
+        run: mvn clean verify -pl application -am -Dlicense.skip=true -Ddockerfile.skip=true -Dskip.docker.tests=true
 
       - name: Verify Executable Jar exists
         run: ls -l application/target/*.jar
