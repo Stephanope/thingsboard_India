@@ -37,7 +37,7 @@ jobs:
         cache: maven
 
     - name: Build and Run Targeted Tests (Smoke Test)
-      run: mvn clean verify -am -Dtest=UnitConverterTest,TbJsFilterNodeTest -DfailIfNoTests=false -Dlicense.skip=true -Ddockerfile.skip=true -Dskip.docker.tests=true
+      run: mvn clean verify -am -Dtest=UnitConverterTest,TbJsFilterNodeTest -DfailIfNoTests=false -Dsurefire.failIfNoSpecifiedTests=false -Dlicense.skip=true -Ddockerfile.skip=true -Dskip.docker.tests=true
 
     - name: Verify Executable Jar exists
       run: ls -l application/target/*.jar
