@@ -18,26 +18,33 @@ name: ThingsBoard CI
 
 on:
   push:
-    branches: [ "main", "master" ]
+    branches: ["main", "master"]
   pull_request:
-    branches: [ "main", "master" ]
+    branches: ["main", "master"]
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-    - name: Set up JDK 17
-      uses: actions/setup-java@v3
-      with:
-        java-version: '17'
-        distribution: 'temurin'
-        cache: maven
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: "17"
+          distribution: "temurin"
+          cache: maven
 
-    - name: Build and Run Targeted Tests (Smoke Test)
-      run: mvn clean verify -am -Dtest=UnitConverterTest,TbJsFilterNodeTest -DfailIfNoTests=false -Dsurefire.failIfNoSpecifiedTests=false -Dlicense.skip=true -Ddockerfile.skip=true -Dskip.docker.tests=true
+      - name: Run High Coverage Test Suite
+        run: >
+          mvn clean verify -pl application -am
+          -T 1C
+          -Dtest="**/utils/*Test,**/controller/*Test,!**/*Docker*"
+          -DfailIfNoTests=false
+          -Dsurefire.failIfNoSpecifiedTests=false
+          -Dskip.docker.tests=true
+          -Dlicense.skip=true
 
-    - name: Verify Executable Jar exists
-      run: ls -l application/target/*.jar
+      - name: Verify Executable Jar exists
+        run: ls -l application/target/*.jar
