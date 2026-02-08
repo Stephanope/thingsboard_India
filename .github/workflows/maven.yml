@@ -56,7 +56,7 @@ jobs:
             -e TB_TRANSPORT_MQTT_ENABLED=true \
             -e TB_TRANSPORT_HTTP_ENABLED=true \
             thingsboard/tb-postgres
-          sleep 60
+          sleep 200
 
       - name: Run Gatling Maturity Test
         run: mvn gatling:test -pl application -Dgatling.simulationClass=org.thingsboard.server.utils.ThingsBoardMaturityTest
