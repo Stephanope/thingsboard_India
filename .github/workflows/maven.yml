@@ -15,7 +15,7 @@
 #
 
 name: ThingsBoard CI
-
+#test
 on:
   push:
     branches: ["main", "master"]
