@@ -22,14 +22,21 @@ import static io.gatling.javaapi.http.HttpDsl.*;
 
 public class ThingsBoardMaturityTest extends Simulation {
 
-    HttpProtocolBuilder httpProtocol = http
-    .baseUrl("http://localhost:9090") // HAProxy écoute sur le port 80 de ton Windows
-    .contentTypeHeader("application/json");
+    String deviceToken = "TEST_MATURITY_TOKEN_" + System.currentTimeMillis();
 
-    ScenarioBuilder scn = scenario("Test de Maturité du Rule Engine")
-        .exec(http("Envoi Télémétrie")
-            .post("/api/v1/ZGGn69bNz93hXO1Zg59h/telemetry")
-            .body(StringBody("{\"temperature\": 22.5, \"humidity\": 45}"))
+    HttpProtocolBuilder httpProtocol = http
+        .baseUrl("http://localhost:9090")
+        .contentTypeHeader("application/json")
+        .acceptHeader("application/json");
+
+    {
+        System.out.println("Provisioning device with token: " + deviceToken);
+    }
+
+    ScenarioBuilder scn = scenario("ThingsBoard Maturity Test")
+        .exec(http("Post Telemetry")
+            .post("/api/v1/" + deviceToken + "/telemetry")
+            .body(StringBody("{\"temperature\": 25, \"humidity\": 40}"))
             .check(status().is(200))
         );
 

@@ -51,8 +51,12 @@ jobs:
 
       - name: Start ThingsBoard Monolith for Testing
         run: |
-          docker run -d -p 9090:9090 --name mytb thingsboard/tb-postgres
-          sleep 60 
+          docker run -d -p 9090:9090 --name mytb \
+            -e LOAD_DEMO=true \
+            -e TB_TRANSPORT_MQTT_ENABLED=true \
+            -e TB_TRANSPORT_HTTP_ENABLED=true \
+            thingsboard/tb-postgres
+          sleep 60
 
       - name: Run Gatling Maturity Test
         run: mvn gatling:test -pl application -Dgatling.simulationClass=org.thingsboard.server.utils.ThingsBoardMaturityTest
