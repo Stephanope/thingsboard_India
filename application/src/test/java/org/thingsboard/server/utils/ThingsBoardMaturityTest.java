@@ -35,7 +35,7 @@ public class ThingsBoardMaturityTest extends Simulation {
 
     ScenarioBuilder scn = scenario("ThingsBoard Maturity Test")
         .exec(http("Post Telemetry")
-            .post("/api/v1/" + deviceToken + "/telemetry")
+            .post("/api/v1/A1_TEST_TOKEN/telemetry")
             .body(StringBody("{\"temperature\": 25, \"humidity\": 40}"))
             .check(status().is(200))
         );
