@@ -46,5 +46,14 @@ jobs:
           -Dskip.docker.tests=true
           -Dlicense.skip=true
 
+      - name: Start ThingsBoard Monolith for Testing
+        run: |
+          docker run -d -p 9090:9090 --name mytb thingsboard/tb-postgres
+          sleep 60 
+
+      - name: Run Gatling Maturity Test
+        run: mvn gatling:test -pl application -Dgatling.simulationClass=org.thingsboard.server.utils.ThingsBoardMaturityTest
+
       - name: Verify Executable Jar exists
         run: ls -l application/target/*.jar
+
