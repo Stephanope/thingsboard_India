@@ -38,13 +38,13 @@ jobs:
 
       - name: Run High Coverage Test Suite
         run: >
-        #   mvn clean verify -pl application -am
-        #   -T 1C
-        #   -Dtest="**/utils/*Test,**/controller/*Test,!**/*Docker*"
-        #   -DfailIfNoTests=false
-        #   -Dsurefire.failIfNoSpecifiedTests=false
-        #   -Dskip.docker.tests=true
-        #   -Dlicense.skip=true
+          mvn clean verify -pl application -am
+          -T 1C
+          -Dtest="**/utils/*Test,**/controller/*Test,!**/*Docker*"
+          -DfailIfNoTests=false
+          -Dsurefire.failIfNoSpecifiedTests=false
+          -Dskip.docker.tests=true
+          -Dlicense.skip=true
 
       - name: Targeted Build
         run: mvn clean install -pl application -am -DskipTests -Dlicense.skip=true
