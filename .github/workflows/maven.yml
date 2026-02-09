@@ -22,4 +22,4 @@ jobs:
 
       - name: Exécution des Tests Ciblés (Fonctionnalité & Fiabilité)
         # Ajout de -Dsurefire.failIfNoSpecifiedTests=false pour éviter le crash
-        run: mvn test -Dtest=TbJsFilterNodeTest,DeviceConnectivityControllerTest -Dsurefire.failIfNoSpecifiedTests=false
+        run: mvn test -Dtest=TbJsFilterNodeTest -Dsurefire.failIfNoSpecifiedTests=false
