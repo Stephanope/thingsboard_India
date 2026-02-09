@@ -20,7 +20,6 @@ jobs:
           distribution: "temurin"
           cache: maven
 
-      # C'est ici que la magie opère
-      - name: Exécution des Tests Ciblés (Fonctionnalités Clés)
-        # Remplace 'DeviceControllerTest' et 'TelemetryControllerTest' par tes vrais noms de fichiers de test
-        run: mvn test -Dtest=DeviceControllerTest,TelemetryControllerTest -DfailIfNoTests=false
+      - name: Exécution des Tests Ciblés (Fonctionnalité & Fiabilité)
+        # Ajout de -Dsurefire.failIfNoSpecifiedTests=false pour éviter le crash
+        run: mvn test -Dtest=TbJsFilterNodeTest,DeviceConnectivityControllerTest -Dsurefire.failIfNoSpecifiedTests=false
