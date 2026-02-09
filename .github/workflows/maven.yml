@@ -1,4 +1,4 @@
-name: Validation Ciblée (Rapport TP1)
+name: Rapport Détaillé TP1 (Fonctionnalité & Fiabilité)
 
 on:
   push:
@@ -7,19 +7,36 @@ on:
     branches: ["master", "main"]
 
 jobs:
-  test-features:
+  generer-rapport:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up JDK 17
+      - name: Installation Java 17
         uses: actions/setup-java@v4
         with:
           java-version: "17"
           distribution: "temurin"
           cache: maven
 
-      - name: Exécution des Tests Ciblés (Fonctionnalité & Fiabilité)
-        # Ajout de -Dsurefire.failIfNoSpecifiedTests=false pour éviter le crash
-        run: mvn test -Dtest=TbJsFilterNodeTest -Dsurefire.failIfNoSpecifiedTests=false
+      - name: 1. Exécution des Tests (Silence)
+        # On lance les DEUX tests en même temps.
+        # L'option -q (quiet) réduit le bruit, on veut juste que les fichiers .txt soient créés.
+        run: mvn test -Dtest=TbJsFilterNodeTest,DeviceConnectivityControllerTest -Dsurefire.failIfNoSpecifiedTests=false
+        continue-on-error: true # Important: continue même si un test échoue, pour voir le rapport
+
+      - name: 2. AFFICHAGE DU RAPPORT DÉTAILLÉ
+        run: |
+          echo "################################################################"
+          echo "              RAPPORT 1 : FONCTIONNALITÉ (Filter Node)          "
+          echo "################################################################"
+          # Cherche et affiche le rapport texte du Filter Node
+          find . -name "*TbJsFilterNodeTest.txt" -exec cat {} \;
+
+          echo ""
+          echo ""
+          echo "################################################################"
+          echo "              RAPPORT 2 : FIABILITÉ (Device Connectivity)       "
+          echo "################################################################"
+          # Cherche et affiche le rapport texte du Device Connectivity
+          find . -name "*DeviceConnectivityControllerTest.txt" -exec cat {} \;
